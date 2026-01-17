@@ -1,0 +1,1 @@
+print("Massive simulation placeholder")
