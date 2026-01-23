@@ -8,7 +8,7 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable2Step.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 contract OmniUtilCoreV2 is ERC20, Ownable2Step, ReentrancyGuard {
 
@@ -81,21 +81,22 @@ contract OmniUtilCoreV2 is ERC20, Ownable2Step, ReentrancyGuard {
         CONSTRUCTOR
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
     constructor(
-        address _creator,
-        address _treasury,
-        address _ai
-    ) ERC20("OmniUtil", "UTIL") {
-        CREATOR = _creator;
-        TREASURY = _treasury;
-        AI_COORDINATOR = _ai;
+    address _creator,
+    address _treasury,
+    address _ai
+)
+    ERC20("OmniUtil", "UTIL")
+    Ownable(_creator)
+{
+    CREATOR = _creator;
+    TREASURY = _treasury;
+    AI_COORDINATOR = _ai;
 
-        MAX_ANNUAL_MINT = 10_000_000 * 10 ** decimals();
-        lastInflationReset = block.timestamp;
+    MAX_ANNUAL_MINT = 10_000_000 * 10 ** decimals();
+    lastInflationReset = block.timestamp;
 
-        _mint(_creator, 1_000_000 * 10 ** decimals());
-        _transferOwnership(_creator);
-    }
-
+    _mint(_creator, 1_000_000 * 10 ** decimals());
+}
     /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         PARTNER MANAGEMENT
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
